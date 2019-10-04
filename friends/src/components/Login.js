@@ -1,28 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { AxiosWithAuth } from "../utils/AxiosWithAux.js";
-import { useFormHook } from "../hooks/formHook.js";
 
 const Login = props => {
-  const [userName, password] = useFormHook();
+  const [user, setUser] = useState({ username: "", password: "" });
 
   const login = e => {
     e.preventDefault();
 
     AxiosWithAuth()
-      .post("/login")
-      .then(res => console.log(res))
+      .post("/login", user)
+      .then(res => {
+        console.log(res);
+        localStorage.setItem("token", res.data.payload);
+        props.history.push("/dashboard");
+      })
       .catch(err => console.log(err));
+
+    setUser({ username: "", password: "" });
+  };
+
+  const handleChanges = e => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
     <div>
-      <form>
+      <form onSubmit={e => login(e)}>
         <input
-          name="userName"
+          type="text"
+          name="username"
           placeholder="Type User Name"
-          value={userName}
-          onChange={useFormHook}
+          value={user.username}
+          onChange={e => handleChanges(e)}
         />
+        <input
+          type="password"
+          name="password"
+          placeholder="Type Password"
+          value={user.password}
+          onChange={e => handleChanges(e)}
+        />
+        <button hidden></button>
       </form>
     </div>
   );
