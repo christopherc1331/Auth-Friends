@@ -1,9 +1,9 @@
 import React from "react";
-import { AxiosWithAuth } from "./utils/AxiosWithAux.js";
+import { AxiosWithAuth } from "../utils/AxiosWithAux.js";
+import { useFormHook } from "../hooks/formHook.js";
 
 const Login = props => {
-
-    const []
+  const [userName, password] = useFormHook();
 
   const login = e => {
     e.preventDefault();
@@ -15,14 +15,17 @@ const Login = props => {
   };
 
   return (
+    <div>
       <form>
-          <input 
-          value={}
-
-          />
+        <input
+          name="userName"
+          placeholder="Type User Name"
+          value={userName}
+          onChange={useFormHook}
+        />
       </form>
-  )
-
+    </div>
+  );
 };
 
 export default Login;
