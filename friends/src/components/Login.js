@@ -12,10 +12,10 @@ const Login = props => {
       .then(res => {
         console.log(res);
         localStorage.setItem("token", res.data.payload);
-        props.history.push("/dashboard");
+        props.history.push("/FriendDashboard");
       })
       .catch(err => console.log(err));
-
+    props.loginToApp();
     setUser({ username: "", password: "" });
   };
 
